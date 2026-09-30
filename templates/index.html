@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Estilo Discord</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Barra lateral -->
+        <div class="sidebar">
+            <div class="server-header">Servidor de Chat</div>
+            <div class="channel active"># chat-general</div>
+            <div class="channel"># ayuda</div>
+        </div>
+
+        <!-- Área principal del chat -->
+        <div class="main-chat">
+            <div class="chat-header">
+                <span class="hashtag">#</span> chat-general
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <!-- Mensaje de bienvenida -->
+                <div class="message">
+                    <div class="avatar bot-avatar">B</div>
+                    <div class="message-content">
+                        <div class="message-info">
+                            <span class="username">Bot</span>
+                            <span class="timestamp">Hoy a las 12:00</span>
+                        </div>
+                        <div class="text">¡Bienvenido al canal! Escribe un mensaje para empezar.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de entrada de texto -->
+            <div class="chat-input-container">
+                <form id="chat-form">
+                    <input type="text" id="message-input" placeholder="Enviar mensaje a #chat-general" autocomplete="off" required>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function getCurrentTime() {
+            const now = new Date();
+            return `Hoy a las ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function appendMessage(sender, text, isBot = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            const avatar = isBot ? '<div class="avatar bot-avatar">B</div>' : '<div class="avatar user-avatar">U</div>';
+            const username = isBot ? 'Bot' : 'Tú';
+            
+            messageDiv.innerHTML = `
+                ${avatar}
+                <div class="message-content">
+                    <div class="message-info">
+                        <span class="username">${username}</span>
+                        <span class="timestamp">${getCurrentTime()}</span>
+                    </div>
+                    <div class="text">${text}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            // Mostrar mensaje del usuario
+            appendMessage('Tú', text, false);
+            messageInput.value = '';
+
+            // Enviar mensaje al backend
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: text })
+                });
+                
+                const data = await response.json();
+                // Mostrar respuesta del bot
+                appendMessage('Bot', data.response, true);
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('Sistema', 'Error de conexión con el servidor.', true);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'gg sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #36393f;
+    color: #dcddde;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 240px;
+    background-color: #2f3136;
+    display: flex;
+    flex-direction: column;
+}
+
+.server-header {
+    height: 48px;
+    padding: 12px 16px;
+    font-weight: bold;
+    color: #fff;
+    border-bottom: 1px solid #202225;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.channel {
+    padding: 8px 8px 8px 16px;
+    margin: 2px 8px;
+    border-radius: 4px;
+    color: #8e9297;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.channel:hover {
+    background-color: #393c43;
+    color: #dcddde;
+}
+
+.channel.active {
+    background-color: #393c43;
+    color: #fff;
+}
+
+/* Área principal del chat */
+.main-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #36393f;
+}
+
+.chat-header {
+    height: 48px;
+    padding: 12px 16px;
+    font-weight: bold;
+    color: #fff;
+    border-bottom: 1px solid #202225;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+}
+
+.hashtag {
+    color: #8e9297;
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 0;
+}
+
+.message {
+    display: flex;
+    padding: 4px 16px;
+    margin-top: 17px;
+}
+
+.message:hover {
+    background-color: #32353b;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.bot-avatar {
+    background-color: #5865F2; /* Azul Discord */
+}
+
+.user-avatar {
+    background-color: #3ba55c; /* Verde */
+}
+
+.message-content {
+    flex: 1;
+}
+
+.message-info {
+    margin-bottom: 4px;
+}
+
+.username {
+    font-weight: 500;
+    color: #fff;
+    margin-right: 8px;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: #72767d;
+}
+
+.text {
+    line-height: 1.375rem;
+    word-wrap: break-word;
+}
+
+/* Entrada de texto */
+.chat-input-container {
+    padding: 0 16px 24px;
+}
+
+#chat-form {
+    background-color: #40444b;
+    border-radius: 8px;
+    display: flex;
+    padding: 11px 16px;
+}
+
+#message-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #dcddde;
+    font-size: 1rem;
+    outline: none;
+}
+
+#message-input::placeholder {
+    color: #72767d;
+}
