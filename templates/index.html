@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Estilo Discord</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -30,7 +33,7 @@
                             <span class="username">Bot</span>
                             <span class="timestamp">Hoy a las 12:00</span>
                         </div>
-                        <div class="text">¡Bienvenido al canal! Escribe un mensaje para empezar.</div>
+                        <div class="text">¡Bienvenido al canal! Puedes preguntarme cualquier cosa sobre cálculo.</div>
                     </div>
                 </div>
             </div>
@@ -74,6 +77,16 @@
             
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(messageDiv, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true}, // Ecuaciones en bloque
+                        {left: '$', right: '$', display: false}   // Ecuaciones en línea
+                    ],
+                    throwOnError: false
+                });
+            }
         }
 
         chatForm.addEventListener('submit', async (e) => {
